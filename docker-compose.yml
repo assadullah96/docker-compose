@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  golang_trivago:
+    build: 
+      context: ./golang
+      dockerfile: Dockerfile
+    restart: always
+  java_trivago:
+    build: 
+      context: ./java
+      dockerfile: Dockerfile
+    restart: always
+  load_balancer:
+    build:
+      context: ./load-balancer-nginx
+      dockerfile: Dockerfile
+    links:
+    - golang_trivago
+    - java_trivago
+    ports:
+    - "8080:8080"
